@@ -17,16 +17,54 @@ class App extends Component {
     cart: []
   };
 
-  addItemToCart = () => {};
-  removeItemFromCart = () => {};
+  addProductToCart = product => {
+    let updatedCart;
+    let updatedItemIndex;
+    updatedCart = [...this.state.cart];
+    updatedItemIndex = updatedCart.findIndex(item => item.id === product.id);
+
+    if (updatedItemIndex < 0) {
+      updatedCart.push({ ...product, quantity: 1 });
+    } else {
+      const updatedItem = {
+        ...updatedCart[updatedItemIndex]
+      };
+      updatedItem.quantity++;
+      updatedCart[updatedItemIndex] = updatedItem;
+    }
+    this.setState({
+      cart: updatedCart
+    });
+    // return { ...this.state, cart: updatedCart };
+  };
+  removeProductFromCart = product => {
+    let updatedCart;
+    let updatedItemIndex;
+    updatedCart = [...this.state.cart];
+    updatedItemIndex = updatedCart.findIndex(item => item.id === product);
+
+    const updatedItem = {
+      ...updatedCart[updatedItemIndex]
+    };
+    updatedItem.quantity--;
+    if (updatedItem.quantity <= 0) {
+      updatedCart.splice(updatedItemIndex, 1);
+    } else {
+      updatedCart[updatedItemIndex] = updatedItem;
+    }
+    this.setState({
+      cart: updatedCart
+    });
+    // return { ...state, cart: updatedCart };
+  };
 
   render() {
     return (
       <ShopContext.Provider
         value={{
           ...this.state,
-          addItemToCart: this.addItemToCart,
-          removeItemFromCart: this.removeItemFromCart
+          addProductToCart: this.addProductToCart,
+          removeProductFromCart: this.removeProductFromCart
         }}
       >
         <BrowserRouter>

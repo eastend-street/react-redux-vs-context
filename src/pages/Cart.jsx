@@ -1,33 +1,37 @@
-import React from "react";
+import React, { Component } from "react";
 // import { connect } from 'react-redux';
 
 import MainNavigation from "../components/MainNavigation";
-// import { addProductToCart } from '../store/actions';
-import "./Products.css";
+// import { removeProductFromCart } from '../store/actions';
+import "./Cart.css";
+
 import ShopContext from "../contexts/shopContext";
 
-const ProductsPage = () => {
+const CartPage = () => {
   const cartItemCount = cart => {
     return cart.reduce((count, curItem) => {
       return count + curItem.quantity;
     }, 0);
   };
-
   return (
     <ShopContext.Consumer>
       {value => (
         <>
           <MainNavigation cartItemNumber={cartItemCount(value.cart)} />
-          <main className="products">
+          <main className="cart">
+            {value.cart.length <= 0 && <p>No Item in the Cart!</p>}
             <ul>
-              {value.products.map(product => (
-                <li key={product.id}>
+              {value.cart.map(cartItem => (
+                <li key={cartItem.id}>
                   <div>
-                    <strong>{product.title}</strong> - ${product.price}
+                    <strong>{cartItem.title}</strong> - ${cartItem.price} (
+                    {cartItem.quantity})
                   </div>
                   <div>
-                    <button onClick={() => value.addProductToCart(product)}>
-                      Add to Cart
+                    <button
+                      onClick={() => value.removeProductFromCart(cartItem.id)}
+                    >
+                      Remove from Cart
                     </button>
                   </div>
                 </li>
@@ -40,25 +44,30 @@ const ProductsPage = () => {
   );
 };
 
-export default ProductsPage;
+export default CartPage;
 
-// class ProductsPage extends Component {
+// class CartPage extends Component {
 //   render() {
 //     return (
 //       <React.Fragment>
 //         <MainNavigation cartItemNumber={this.props.cartItemCount} />
-//         <main className="products">
+//         <main className="cart">
+//           {this.props.cartItems.length <= 0 && <p>No Item in the Cart!</p>}
 //           <ul>
-//             {this.props.products.map(product => (
-//               <li key={product.id}>
+//             {this.props.cartItems.map(cartItem => (
+//               <li key={cartItem.id}>
 //                 <div>
-//                   <strong>{product.title}</strong> - ${product.price}
+//                   <strong>{cartItem.title}</strong> - ${cartItem.price} (
+//                   {cartItem.quantity})
 //                 </div>
 //                 <div>
 //                   <button
-//                     onClick={this.props.addProductToCart.bind(this, product)}
+//                     onClick={this.props.removeProductFromCart.bind(
+//                       this,
+//                       cartItem.id
+//                     )}
 //                   >
-//                     Add to Cart
+//                     Remove from Cart
 //                   </button>
 //                 </div>
 //               </li>
@@ -72,7 +81,7 @@ export default ProductsPage;
 
 // const mapStateToProps = state => {
 //   return {
-//     products: state.products,
+//     cartItems: state.cart,
 //     cartItemCount: state.cart.reduce((count, curItem) => {
 //       return count + curItem.quantity;
 //     }, 0)
@@ -81,11 +90,11 @@ export default ProductsPage;
 
 // const mapDispatchToProps = dispatch => {
 //   return {
-//     addProductToCart: product => dispatch(addProductToCart(product))
+//     removeProductFromCart: id => dispatch(removeProductFromCart(id))
 //   };
 // };
 
 // export default connect(
 //   mapStateToProps,
 //   mapDispatchToProps
-// )(ProductsPage);
+// )(CartPage);
