@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 // import { connect } from 'react-redux';
 
 import MainNavigation from "../components/MainNavigation";
@@ -13,34 +13,33 @@ const CartPage = () => {
       return count + curItem.quantity;
     }, 0);
   };
+
+  const value = useContext(ShopContext);
+
   return (
-    <ShopContext.Consumer>
-      {value => (
-        <>
-          <MainNavigation cartItemNumber={cartItemCount(value.cart)} />
-          <main className="cart">
-            {value.cart.length <= 0 && <p>No Item in the Cart!</p>}
-            <ul>
-              {value.cart.map(cartItem => (
-                <li key={cartItem.id}>
-                  <div>
-                    <strong>{cartItem.title}</strong> - ${cartItem.price} (
-                    {cartItem.quantity})
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => value.removeProductFromCart(cartItem.id)}
-                    >
-                      Remove from Cart
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </main>
-        </>
-      )}
-    </ShopContext.Consumer>
+    <>
+      <MainNavigation cartItemNumber={cartItemCount(value.cart)} />
+      <main className="cart">
+        {value.cart.length <= 0 && <p>No Item in the Cart!</p>}
+        <ul>
+          {value.cart.map(cartItem => (
+            <li key={cartItem.id}>
+              <div>
+                <strong>{cartItem.title}</strong> - ${cartItem.price} (
+                {cartItem.quantity})
+              </div>
+              <div>
+                <button
+                  onClick={() => value.removeProductFromCart(cartItem.id)}
+                >
+                  Remove from Cart
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
+    </>
   );
 };
 
