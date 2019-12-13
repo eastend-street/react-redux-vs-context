@@ -10,7 +10,7 @@ Also edited version from https://github.com/Saayaman/redux-context-example
   Best practice, hybrid as redux and context api. same as [context-and-redux](https://github.com/eastend-street/react-redux-vs-context/tree/context-and-redux)
 
 - [redux](https://github.com/eastend-street/react-redux-vs-context/tree/redux)  
-   Only using Redux. No hooks, contextAPI.
+   Only using Redux. No react hooks, contextAPI.
 
 - [make-context](https://github.com/eastend-street/react-redux-vs-context/tree/make-context)  
    Using context api to prevent props drilling. No redux.
