@@ -1,6 +1,6 @@
 import { ADD_PRODUCT_TO_CART, REMOVE_PRODUCT_FROM_CART } from './actions';
 
-const initialState = {
+export const initialState = {
   products: [
     { id: 'p1', title: 'Gaming Mouse', price: 29.99 },
     { id: 'p2', title: 'Harry Potter 3', price: 9.99 },
