@@ -7,15 +7,14 @@ import "./Products.css";
 
 const ProductsPage = ({state, dispatch}) => {
   const getCartItemCount = () => {
-    state.cart.reduce((count, curItem) => {
+    return state.cart.reduce((count, curItem) => {
       return count + curItem.quantity;
     }, 0);
   };
-  console.log("state", state)
 
   return (
     <React.Fragment>
-      <MainNavigation cartItemNumber={state.cartItemCount} />
+      <MainNavigation cartItemNumber={getCartItemCount()} />
       <main className="products">
         <ul>
           {state.products.map(product => (

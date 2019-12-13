@@ -13,7 +13,7 @@ const App = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/" render={()=> <ProductsPage state={state} dispatch={dispatch} />} exact />
-        <Route path="/cart" component={CartPage} render={()=> <CartPage state={state} dispatch={dispatch} />} exact />
+        <Route path="/cart" render={()=> <CartPage state={state} dispatch={dispatch} />} exact />
       </Switch>
     </BrowserRouter>
   );

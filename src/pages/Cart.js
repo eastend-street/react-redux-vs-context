@@ -7,8 +7,8 @@ import "./Cart.css";
 import ProductsPage from "./Products";
 
 const CartPage = ({ state, dispatch }) => {
+  console.log(state);
   const getCartItemCount = () => {
-    console.log(state)
     return state.cart.reduce((count, curItem) => {
       return count + curItem.quantity;
     }, 0);
@@ -19,7 +19,7 @@ const CartPage = ({ state, dispatch }) => {
       <main className="cart">
         {state.cart.length <= 0 && <p>No Item in the Cart!</p>}
         <ul>
-          {state.cartItems.map(cartItem => (
+          {state.cart.map(cartItem => (
             <li key={cartItem.id}>
               <div>
                 <strong>{cartItem.title}</strong> - ${cartItem.price} (
@@ -27,10 +27,12 @@ const CartPage = ({ state, dispatch }) => {
               </div>
               <div>
                 <button
-                  onClick={dispatch({
-                    type: REMOVE_PRODUCT_FROM_CART,
-                    payload: cartItem.id
-                  })}
+                  onClick={() =>
+                    dispatch({
+                      type: REMOVE_PRODUCT_FROM_CART,
+                      payload: cartItem.id
+                    })
+                  }
                 >
                   Remove from Cart
                 </button>
