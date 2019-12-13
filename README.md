@@ -1,68 +1,64 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# React vs Context API
 
-## Available Scripts
+This is a practice to learn the difference between redux and context api.  
+The original code from https://github.com/academind/react-redux-vs-context/tree/redux  
+Also edited version from https://github.com/Saayaman/redux-context-example
 
-In the project directory, you can run:
+# Branch
 
-### `npm start`
+- [master](https://github.com/eastend-street/react-redux-vs-context/tree/master)  
+  Best practice, hybrid as redux and context api. same as [context-and-redux](https://github.com/eastend-street/react-redux-vs-context/tree/context-and-redux)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [redux](https://github.com/eastend-street/react-redux-vs-context/tree/redux)  
+   Only using Redux. No hooks, contextAPI.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- [make-context](https://github.com/eastend-street/react-redux-vs-context/tree/make-context)  
+   Using context api to prevent props drilling. No redux.
 
-### `npm test`
+- [context-hooks](https://github.com/eastend-street/react-redux-vs-context/tree/context-hooks)  
+   Using context api and hooks(useContext). By using hooks, you don't have to write code so much.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+    ```javaScript
+    // Only context api
+    // Only context api, you need to write consumer and value argument
+    return (
+    <ShopContext.Consumer>
+        {value => (
+            <>
+            <MainNavigation cartItemNumber={cartItemCount(value.cart)} />
+    ```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```javaScript
+    // Using hooks(useContext)
+    // after using useContext, you don't have to use consumer. Just only use useContext and import value.
+    const value = useContext(ShopContext);
+    return (
+        <>
+        <MainNavigation cartItemNumber={cartItemCount(value.cart)} />
+    ```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+- [redux-usereducer](https://github.com/eastend-street/react-redux-vs-context/tree/redux-usereducer)  
+   Using redux and hooks(useReducer). If you use useReducer, you can get `state` and `dispatch` from useReducer.  
+   You don't have to use `mapDispatchProps`, `mapStateProps`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```javascript
+        import reducer, { initialState } from "./store/reducers";
 
-### `npm run eject`
+        const App = () => {
+        const [state, dispatch] = useReducer(reducer, initialState);
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+        return (
+            <BrowserRouter>
+                <Switch>
+                    <Route path="/" render={()=> <ProductsPage state={state} dispatch={dispatch} />} exact />
+                    <Route path="/cart" render={()=> <CartPage state={state} dispatch={dispatch} />} exact />
+                </Switch>
+            </BrowserRouter>
+        );
+        };
+    ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [context-and-redux](https://github.com/eastend-street/react-redux-vs-context/tree/context-and-redux)  
+   Hybrid context and redux. State is being managed by Redux, props drilling is resolved by context api(Provider)
+   By using context api, we don't have to write so much redux code like `mapDispatchToProps` etc.
