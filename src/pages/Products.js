@@ -1,21 +1,22 @@
-import React, { Component, useReducer } from "react";
-// import { connect } from 'react-redux';
+import React, { useContext } from "react";
 
 import MainNavigation from "../components/MainNavigation";
 import { ADD_PRODUCT_TO_CART } from "../store/actions";
 import "./Products.css";
+import ShopContext from "../contexts/shopContext";
 
-const ProductsPage = ({state, dispatch}) => {
+const ProductsPage = () => {
+  const { state, dispatch } = useContext(ShopContext);
+
   const getCartItemCount = () => {
-    state.cart.reduce((count, curItem) => {
+    return state.cart.reduce((count, curItem) => {
       return count + curItem.quantity;
     }, 0);
   };
-  console.log("state", state)
 
   return (
     <React.Fragment>
-      <MainNavigation cartItemNumber={state.cartItemCount} />
+      <MainNavigation cartItemNumber={getCartItemCount()} />
       <main className="products">
         <ul>
           {state.products.map(product => (
@@ -25,10 +26,12 @@ const ProductsPage = ({state, dispatch}) => {
               </div>
               <div>
                 <button
-                  onClick={()=>dispatch({
-                    type: ADD_PRODUCT_TO_CART,
-                    payload: product
-                  })}
+                  onClick={() =>
+                    dispatch({
+                      type: ADD_PRODUCT_TO_CART,
+                      payload: product
+                    })
+                  }
                 >
                   Add to Cart
                 </button>
